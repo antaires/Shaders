@@ -1,0 +1,27 @@
+// to see live
+//https://www.shadertoy.com/view/3tdSWX
+
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+    vec2 xy = fragCoord.xy / iResolution.xy; // get coords of current pixel
+    
+    
+    vec4 textColor = texture(iChannel0, xy); // get image
+    
+    
+    // add color gradient
+    textColor.r *= abs(sin(iTime));
+    textColor.g *= abs(cos(iTime));
+    textColor.b *= abs(sin(iTime) * cos(iTime));
+    
+	// add different texture if red pixels value is high
+    if (textColor.r > 0.4) {
+    	textColor = texture(iChannel1, xy);
+            textColor.r *= abs(sin(iTime) + cos(iTime));
+
+    }
+    
+    
+    // Output to screen
+    fragColor = textColor;
+}
